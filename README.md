@@ -68,7 +68,7 @@ Steps followed for Assignment 1:
             - Refer site https://salsa.debian.org/kernel-team/linux/-/blob/master/debian/certs/debian-uefi-certs.pem for contents of canonical-certs.pem file
           - Created file names "canonical-revoked-certs.pem" under /linux/debian
             - Refer site https://salsa.debian.org/kernel-team/linux/-/blob/master/debian/certs/debian-uefi-certs.pem for contents of canonical-revoked-certs.pem file
-      - Make modules using "make -j 8 modules" (Replace 8 with the number of vcpu's allocated during machine creation)
+      - Make modules using "make -j 8 modules" (Replace 8 with the number of vcpu's allocated during VM creation)
       - Type command "make -j 8" for making kernel
       - Type command for installing modules "sudo make INSTALL_MOD_STRIP=1 modules_install" (Note: INSTALL_MOD_STRIP=1 is used to skip debugging information)
       - Type command "sudo make install" to install our new kernel
