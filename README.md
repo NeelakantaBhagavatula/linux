@@ -42,24 +42,25 @@ Steps followed for Assignment 1:
       - Type command "make prepare"
       - While running "make prepare" command, there were some error related to certificates. I resolved it using below steps
           - Created file named "x509.genkey" under /linux/certs
+          - Contents of x509.genjey file are below
 
-              [ req ]
-              default_bits = 4096
-              distinguished_name = req_distinguished_name
-              prompt = no
-              string_mask = utf8only
-              x509_extensions = myexts
+                [ req ]
+                default_bits = 4096
+                distinguished_name = req_distinguished_name
+                prompt = no
+                string_mask = utf8only
+                x509_extensions = myexts
 
-              [ req_distinguished_name ]
-              O = neelakanta
-              CN = neelakanta signing key
-              emailAddress = XXXobscuredXXX
+                [ req_distinguished_name ]
+                O = neelakanta
+                CN = neelakanta signing key
+                emailAddress = XXXobscuredXXX
 
-              [ myexts ]
-              basicConstraints=critical,CA:FALSE
-              keyUsage=digitalSignature
-              subjectKeyIdentifier=hash
-              authorityKeyIdentifier=keyid
+                [ myexts ]
+                basicConstraints=critical,CA:FALSE
+                keyUsage=digitalSignature
+                subjectKeyIdentifier=hash
+                authorityKeyIdentifier=keyid
              
           - Created file names "signing_key.pem" under /linux/certs
             - Type command "openssl req -new -nodes -utf8 -sha512 -days 36500 -batch -x509 -config x509.genkey -outform DER -out signing_key.x509 -keyout signing_key.pem" to create signing_key.pem file
