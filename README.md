@@ -1,5 +1,7 @@
 Assignment 1: To discover VMX features
 
+Team members - Neelakanta Bhagavatula (SID: 015261909)
+
 Steps followed for Assignment 1:
   1. Install VMWare Workstation on windows.
   2. Install Ubuntu 20.04.3 in VMWare Workstation by allocating 8 VCPU's, 9 GB RAM and 200 GB disk space.
