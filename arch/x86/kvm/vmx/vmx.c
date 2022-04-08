@@ -6010,7 +6010,7 @@ void dump_vmcs(struct kvm_vcpu *vcpu)
 }
 
 /* https://www.mcs.anl.gov/~kazutomo/rdtsc.html */
-static __inline__ unsigned long long read_time(void)
+static __inline__ unsigned long long rdtsc(void)
 {
   unsigned hi, lo;
   __asm__ __volatile__ ("rdtsc" : "=a"(lo), "=d"(hi));
@@ -6032,7 +6032,7 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 	u64 inside_time = 0;
 	
 	total_exits = total_exits + 1;
-	start_time = read_time();
+	start_time = rdtsc();
 
 	/*
 	 * Flush logged GPAs PML buffer, this will make dirty_bitmap more
@@ -6052,14 +6052,14 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 	 * allowed a nested VM-Enter with an invalid vmcs12.  More below.
 	 */
 	if (KVM_BUG_ON(vmx->nested.nested_run_pending, vcpu->kvm)) {
-		finish_time = read_time();
+		finish_time = rdtsc();
 		inside_time = finish_time - start_time;
 		time_spent_in_vmm += inside_time;
 		return -EIO;
 	}
 
 	if (is_guest_mode(vcpu)) {
-		finish_time = read_time();
+		finish_time = rdtsc();
 		inside_time = finish_time - start_time;
 		time_spent_in_vmm += inside_time;
 		/*
@@ -6068,7 +6068,7 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 		 */
 		if (exit_reason.basic == EXIT_REASON_PML_FULL)
 			goto unexpected_vmexit;
-		finish_time = read_time();
+		finish_time = rdtsc();
 		inside_time = finish_time - start_time;
 		time_spent_in_vmm += inside_time;
 		/*
@@ -6106,7 +6106,7 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 
 	/* If guest state is invalid, start emulating.  L2 is handled above. */
 	if (vmx->emulation_required) {
-		finish_time = read_time();
+		finish_time = rdtsc();
 		inside_time = finish_time - start_time;
 		time_spent_in_vmm += inside_time;
 		return handle_invalid_guest_state(vcpu);
@@ -6118,7 +6118,7 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 		vcpu->run->fail_entry.hardware_entry_failure_reason
 			= exit_reason.full;
 		vcpu->run->fail_entry.cpu = vcpu->arch.last_vmentry_cpu;
-		finish_time = read_time();
+		finish_time = rdtsc();
 		inside_time = finish_time - start_time;
 		time_spent_in_vmm += inside_time;
 		return 0;
@@ -6188,37 +6188,37 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 		goto unexpected_vmexit;
 #ifdef CONFIG_RETPOLINE
 	if (exit_reason.basic == EXIT_REASON_MSR_WRITE) {
-		finish_time = read_time();
+		finish_time = rdtsc();
 		inside_time = finish_time - start_time;
 		time_spent_in_vmm += inside_time;
 		return kvm_emulate_wrmsr(vcpu);
 	}
 	else if (exit_reason.basic == EXIT_REASON_PREEMPTION_TIMER) {
-		finish_time = read_time();
+		finish_time = rdtsc();
 		inside_time = finish_time - start_time;
 		time_spent_in_vmm += inside_time;
 		return handle_preemption_timer(vcpu);
 	}
 	else if (exit_reason.basic == EXIT_REASON_INTERRUPT_WINDOW) {
-		finish_time = read_time();
+		finish_time = rdtsc();
 		inside_time = finish_time - start_time;
 		time_spent_in_vmm += inside_time;
 		return handle_interrupt_window(vcpu);
 	}
 	else if (exit_reason.basic == EXIT_REASON_EXTERNAL_INTERRUPT) {
-		finish_time = read_time();
+		finish_time = rdtsc();
 		inside_time = finish_time - start_time;
 		time_spent_in_vmm += inside_time;
 		return handle_external_interrupt(vcpu);
 	}
 	else if (exit_reason.basic == EXIT_REASON_HLT) {
-		finish_time = read_time();
+		finish_time = rdtsc();
 		inside_time = finish_time - start_time;
 		time_spent_in_vmm += inside_time;
 		return kvm_emulate_halt(vcpu);
 	}
 	else if (exit_reason.basic == EXIT_REASON_EPT_MISCONFIG) {
-		finish_time = read_time();
+		finish_time = rdtsc();
 		inside_time = finish_time - start_time;
 		time_spent_in_vmm += inside_time;
 		return handle_ept_misconfig(vcpu);
@@ -6229,7 +6229,7 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 						kvm_vmx_max_exit_handlers);
 	if (!kvm_vmx_exit_handlers[exit_handler_index])
 		goto unexpected_vmexit;
-	finish_time = read_time();
+	finish_time = rdtsc();
 	inside_time = finish_time - start_time;
 	time_spent_in_vmm += inside_time;
 	return kvm_vmx_exit_handlers[exit_handler_index](vcpu);
