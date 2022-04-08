@@ -1,6 +1,6 @@
 Assignment 1: To discover VMX features
 
-Team members - Neelakanta Bhagavatula (SID: 015261909)
+Team - Neelakanta Bhagavatula (SID: 015261909)
 
 Steps followed for Assignment 1:
   1. Install VMWare Workstation on windows.
@@ -89,3 +89,38 @@ Output Screenshots
 ![3](https://user-images.githubusercontent.com/98799930/162285750-45bc5137-f8b0-4942-a032-e6a238f7ee2b.png)
 
   19. Commit cmpe283-1.c and Makefile to the repository.
+
+
+Assignment 2: Instrumentation via hypercall
+
+Team - Neelakanta Bhagavatula (SID: 015261909)
+
+Steps followed for Assignment 2:
+  1. Modified cpuid.c & vmx.c to support exits for CPUID leaf nodes (0x4fffffff & 0x4ffffffe).
+  2. Below are steps followed to build kvm module and install kernel
+      - Type command "sudo make -j 8 modules"
+      - Type command "sudo make INSTALL_MOD_STRIP=1 modules_install"
+      - Type command "sudo make install"
+      - Removing existing kvm modules using command "sudo rmmod kvm_intel" followed by "sudo rmmod kvm"
+      - Loading kvm module again using command "sudo modprobe kvm" followed by "sudo modprobe kvm_intel"
+      - Verified if kvm module is properly loaded using "lsmod | grep kvm"
+  3. Created an Ubuntu VM instance inside existing VM by installing virtual manager using following command
+      - sudo apt update
+      - sudo apt install cpu-checker
+      - To check if a VM can be created inside an existing VM, command used is "kvm-ok"
+      - Installed virtual manager libraries using "sudo apt install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virtinst virt-manager"
+      - Verified if libcirt daemon is active using "sudo systemctl is-active libvirtd"
+      - Added user group permissions using "sudo usermod -aG kvm $USER", "sudo usermod -aG libvirt $USER" and "newgrp libvirt"
+  4. Started virtual manager using "virt-manager"
+  5. Installed cpuid package manager inside inner VM using "sudo apt-get update -y" followe by "sudo apt-get install -y cpuid"
+  6. Run the following command to check for cpuid leaf node exits
+      - cpuid -l 0x4fffffff
+      - cpuid -l 0x4ffffffe (Note: -l indeicates the values of eax to be loaded)
+  7. Output can be viewed in outer VM message buffer using "dmesg" command
+
+Output Screenshots
+
+![4](https://user-images.githubusercontent.com/98799930/162384407-bf415bbe-33f3-4186-aa3d-e9346da35d7e.png)
+![5](https://user-images.githubusercontent.com/98799930/162384432-1726ab4d-80e7-4907-a3fa-0156c06213b9.png)
+
+  8. Pushed changes for vmx.c & cpuid.c files to the repository.
