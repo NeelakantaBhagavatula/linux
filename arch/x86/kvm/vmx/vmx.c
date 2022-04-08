@@ -71,7 +71,7 @@ MODULE_AUTHOR("Qumranet");
 MODULE_LICENSE("GPL");
 
 extern u32 total_exits;
-extern u64 time_spent_in_vmm; 
+extern u64 time_spent_in_vmm;
 
 #ifdef MODULE
 static const struct x86_cpu_id vmx_cpu_id[] = {

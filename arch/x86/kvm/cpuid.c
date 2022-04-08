@@ -1464,6 +1464,7 @@ int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 		printk(KERN_INFO "CPUID(0x4ffffffe) : Total time in processing all exits - %llu cycles", time_spent_in_vmm);
 	}
 	
+	
 	kvm_cpuid(vcpu, &eax, &ebx, &ecx, &edx, false);
 	kvm_rax_write(vcpu, eax);
 	kvm_rbx_write(vcpu, ebx);
