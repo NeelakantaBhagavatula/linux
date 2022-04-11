@@ -120,7 +120,9 @@ Steps followed for Assignment 2:
 
 Output Screenshots
 
-![4](https://user-images.githubusercontent.com/98799930/162384407-bf415bbe-33f3-4186-aa3d-e9346da35d7e.png)
-![5](https://user-images.githubusercontent.com/98799930/162384432-1726ab4d-80e7-4907-a3fa-0156c06213b9.png)
+![4](https://user-images.githubusercontent.com/98799930/162828242-046589b1-909f-4e87-b896-d485754d1fee.png)
+![5](https://user-images.githubusercontent.com/98799930/162828259-b0577bec-9d69-4894-9520-09fcd355e3e3.png)
+![6](https://user-images.githubusercontent.com/98799930/162828265-9dd0007e-5981-40c3-90ef-e910e6a4c64e.png)
+
 
   8. Pushed changes for vmx.c & cpuid.c files to the repository.
