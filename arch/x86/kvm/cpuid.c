@@ -1462,10 +1462,9 @@ int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 		ebx = (unsigned long) time_spent_in_vmm >> 32; // 16-31 bits
 		ecx = (unsigned long) time_spent_in_vmm&0xffffffff; // 0-15 bits
 		printk(KERN_INFO "CPUID(0x4ffffffe) : Total time in processing all exits - %llu cycles", time_spent_in_vmm);
+	} else {
+		kvm_cpuid(vcpu, &eax, &ebx, &ecx, &edx, false);
 	}
-	
-	
-	kvm_cpuid(vcpu, &eax, &ebx, &ecx, &edx, false);
 	kvm_rax_write(vcpu, eax);
 	kvm_rbx_write(vcpu, ebx);
 	kvm_rcx_write(vcpu, ecx);
