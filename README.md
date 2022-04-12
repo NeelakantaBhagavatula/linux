@@ -155,3 +155,22 @@ Output Screenshots
 ![10](https://user-images.githubusercontent.com/98799930/163021923-042c4c52-b441-41fa-9700-ed3b040f79b2.png)
 
   6. Committed changes for vmx.c & cpuid.c files to the repository.
+
+Below are some of the most frequent exits happened:
+  1. Exit type 1 - External Interrupt
+  2. Exit type 10 - CPUID
+  3. Exit type 12 - HLT
+  4. Exit type 30 - I/O instruction
+  5. Exit type 32 - WRMSR
+  6. Exit type 48 - EPT violation
+
+Below are some of the least frequent exits happened:
+  1. Exit type 0 - Exception or non-maskable interrupt (NMI)
+  2. Exit type 7 - Interrupt window
+  3. Exit type 28 - Control-register access
+  4. Exit type 29 - MOV DR
+  5. Exit type 31 - RDMSR
+  6. Exit type 40 - PAUSE
+  7. Exit type 49 - EPT misconfiguration
+  8. Exit type 54 - WBINVD or WBNOINVD
+  9. Exit type 55 - XSETBV
