@@ -73,6 +73,9 @@ MODULE_LICENSE("GPL");
 extern u32 total_exits;
 extern u64 time_spent_in_vmm;
 
+extern u32 vm_exit_reason[70];
+extern u64 time_spent_for_exit_type[70];
+
 #ifdef MODULE
 static const struct x86_cpu_id vmx_cpu_id[] = {
 	X86_MATCH_FEATURE(X86_FEATURE_VMX, NULL),
@@ -6033,6 +6036,7 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 	u64 inside_time = 0;
 	
 	total_exits = total_exits + 1;
+	vm_exit_reason[exit_reason.basic] += 1;
 
 	/*
 	 * Flush logged GPAs PML buffer, this will make dirty_bitmap more
@@ -6055,6 +6059,7 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 		finish_time = get_timestamp();
 		inside_time = finish_time - start_time;
 		time_spent_in_vmm += inside_time;
+		time_spent_for_exit_type[exit_reason.basic] += inside_time;
 		return -EIO;
 	}
 
@@ -6071,6 +6076,7 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 		finish_time = get_timestamp();
 		inside_time = finish_time - start_time;
 		time_spent_in_vmm += inside_time;
+		time_spent_for_exit_type[exit_reason.basic] += inside_time;
 		/*
 		 * The host physical addresses of some pages of guest memory
 		 * are loaded into the vmcs02 (e.g. vmcs12's Virtual APIC
@@ -6109,6 +6115,7 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 		finish_time = get_timestamp();
 		inside_time = finish_time - start_time;
 		time_spent_in_vmm += inside_time;
+		time_spent_for_exit_type[exit_reason.basic] += inside_time;
 		return handle_invalid_guest_state(vcpu);
 	}
 
@@ -6121,6 +6128,7 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 		finish_time = get_timestamp();
 		inside_time = finish_time - start_time;
 		time_spent_in_vmm += inside_time;
+		time_spent_for_exit_type[exit_reason.basic] += inside_time;
 		return 0;
 	}
 
@@ -6191,36 +6199,42 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 		finish_time = get_timestamp();
 		inside_time = finish_time - start_time;
 		time_spent_in_vmm += inside_time;
+		time_spent_for_exit_type[exit_reason.basic] += inside_time;
 		return kvm_emulate_wrmsr(vcpu);
 	}
 	else if (exit_reason.basic == EXIT_REASON_PREEMPTION_TIMER) {
 		finish_time = get_timestamp();
 		inside_time = finish_time - start_time;
 		time_spent_in_vmm += inside_time;
+		time_spent_for_exit_type[exit_reason.basic] += inside_time;
 		return handle_preemption_timer(vcpu);
 	}
 	else if (exit_reason.basic == EXIT_REASON_INTERRUPT_WINDOW) {
 		finish_time = get_timestamp();
 		inside_time = finish_time - start_time;
 		time_spent_in_vmm += inside_time;
+		time_spent_for_exit_type[exit_reason.basic] += inside_time;
 		return handle_interrupt_window(vcpu);
 	}
 	else if (exit_reason.basic == EXIT_REASON_EXTERNAL_INTERRUPT) {
 		finish_time = get_timestamp();
 		inside_time = finish_time - start_time;
 		time_spent_in_vmm += inside_time;
+		time_spent_for_exit_type[exit_reason.basic] += inside_time;
 		return handle_external_interrupt(vcpu);
 	}
 	else if (exit_reason.basic == EXIT_REASON_HLT) {
 		finish_time = get_timestamp();
 		inside_time = finish_time - start_time;
 		time_spent_in_vmm += inside_time;
+		time_spent_for_exit_type[exit_reason.basic] += inside_time;
 		return kvm_emulate_halt(vcpu);
 	}
 	else if (exit_reason.basic == EXIT_REASON_EPT_MISCONFIG) {
 		finish_time = get_timestamp();
 		inside_time = finish_time - start_time;
 		time_spent_in_vmm += inside_time;
+		time_spent_for_exit_type[exit_reason.basic] += inside_time;
 		return handle_ept_misconfig(vcpu);
 	}
 #endif
@@ -6232,6 +6246,7 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 	finish_time = get_timestamp();
 	inside_time = finish_time - start_time;
 	time_spent_in_vmm += inside_time;
+	time_spent_for_exit_type[exit_reason.basic] += inside_time;
 	return kvm_vmx_exit_handlers[exit_handler_index](vcpu);
 
 unexpected_vmexit:

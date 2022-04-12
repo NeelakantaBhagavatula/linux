@@ -33,11 +33,17 @@
 u32 kvm_cpu_caps[NR_KVM_CPU_CAPS] __read_mostly;
 EXPORT_SYMBOL_GPL(kvm_cpu_caps);
 
-u32 total_exits;
+u32 total_exits = 0;
 u64 time_spent_in_vmm = 0;
 
 EXPORT_SYMBOL(total_exits);
 EXPORT_SYMBOL(time_spent_in_vmm);
+
+u32 vm_exit_reason[70] = {0};
+u64 time_spent_for_exit_type[70] = {0};
+
+EXPORT_SYMBOL(vm_exit_reason);
+EXPORT_SYMBOL(time_spent_for_exit_type);
 
 u32 xstate_required_size(u64 xstate_bv, bool compacted)
 {
@@ -1448,21 +1454,59 @@ EXPORT_SYMBOL_GPL(kvm_cpuid);
 int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 {
 	u32 eax, ebx, ecx, edx;
+	u32
 
 	if (cpuid_fault_enabled(vcpu) && !kvm_require_cpl(vcpu, 0))
 		return 1;
 
 	eax = kvm_rax_read(vcpu);
 	ecx = kvm_rcx_read(vcpu);
+	exit_type = ecx;
 	
 	if (eax == 0x4fffffff) {
 		eax = total_exits;
-		printk(KERN_INFO "CPUID(0x4fffffff) : Total exits - %u", total_exits);
+		printk(KERN_INFO "CPUID(0x4fffffff) : Total number of exits - %u", total_exits);
 	} else if (eax == 0x4ffffffe) {
 		ebx = (unsigned long) time_spent_in_vmm >> 32; // 16-31 bits
-		ecx = (unsigned long) time_spent_in_vmm&0xffffffff; // 0-15 bits
-		printk(KERN_INFO "CPUID(0x4ffffffe) : Total time in processing all exits - %llu cycles", time_spent_in_vmm);
-	} else {
+		ecx = (unsigned long) time_spent_in_vmm & 0xffffffff; // 0-15 bits
+		printk(KERN_INFO "CPUID(0x4ffffffe) : Total time in vmm processing all exits - %llu cycles", time_spent_in_vmm);
+	} else if (eax == 0x4ffffffd) {
+		if (ecx == 3 || ecx == 4 || ecx == 6 || ecx == 11 || ecx == 16 || ecx == 17 || ecx == 51 || ecx == 63 || ecx == 64 || ecx == 66 || ecx == 67 || ecx == 68 || ecx == 69) {
+			edx = 0;
+			ecx = 0;
+			ebx = 0;
+			eax = 0;
+			printk(KERN_INFO "CPUID 0x4ffffffd instruction exit_type %u is switched off in kvm", (int) exit_type);
+		} else if (ecx == 35 || ecx == 38 || ecx == 42 || ecx == 65) {
+			edx = 0xffffffff;
+			ecx = 0;
+			ebx = 0;
+			eax = 0;
+			printk(KERN_INFO "CPUID ox4ffffffd instruction exit_type %u is not defined", (int) exit_type);
+		} else {
+			eax = vm_exit_reason[ecx];
+			printk(KERN_INFO "CPUID 0x4ffffffd exit count for exit_type %u is %u", (int) exit_type, (int) vm_exit_reason[exit_type]);
+		}
+	} else if (eax == 0x4ffffffc) {
+		if (ecx == 3 || ecx == 4 || ecx == 6 || ecx == 11 || ecx == 16 || ecx == 17 || ecx == 51 || ecx == 63 || ecx == 64 || ecx == 66 || ecx == 67 || ecx == 68 || ecx == 69) {
+			edx = 0;
+			ecx = 0;
+			ebx = 0;
+			eax = 0;
+			printk(KERN_INFO "CPUID 0x4ffffffc instruction exit_type %u is switched off in kvm", (int) exit_type);
+		} else if (ecx == 35 || ecx == 38 || ecx == 42 || ecx == 65) {
+			edx = 0xffffffff;
+			ecx = 0;
+			ebx = 0;
+			eax = 0;
+			printk(KERN_INFO "CPUID ox4ffffffc instruction exit_type %u is not defined", (int) exit_type);
+		} else {
+			ebx = (time_spent_for_exit_type[ecx]) >> 32; // 16-31 bits
+			ecx = (time_spent_for_exit_type[ecx]) & 0xffffffff; // 0-15 bits
+			printk(KERN_INFO "CPUID 0x4ffffffc time spent for exit_type %u is %llu cycles", (int) exit_type, time_spent_for_exit_type[exit_type]);
+		}
+	}
+	else {
 		kvm_cpuid(vcpu, &eax, &ebx, &ecx, &edx, false);
 	}
 	kvm_rax_write(vcpu, eax);
