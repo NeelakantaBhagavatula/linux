@@ -115,7 +115,7 @@ Steps followed for Assignment 2:
   5. Installed cpuid package manager inside inner VM using "sudo apt-get update -y" followe by "sudo apt-get install -y cpuid"
   6. Run the following command to check for cpuid leaf node exits
       - cpuid -l 0x4fffffff
-      - cpuid -l 0x4ffffffe (Note: -l indeicates the values of eax to be loaded)
+      - cpuid -l 0x4ffffffe (Note: -l indicates the values of eax to be loaded)
   7. Output can be viewed in outer VM message buffer using "dmesg" command
 
 Output Screenshots
@@ -126,3 +126,32 @@ Output Screenshots
 
 
   8. Pushed changes for vmx.c & cpuid.c files to the repository.
+
+
+Assignment 2: Instrumentation via hypercall (cont'd)
+
+Team - Neelakanta Bhagavatula (SID: 015261909)
+
+Steps followed for Assignment 3:
+  1. Modified cpuid.c & vmx.c to support exits for CPUID leaf nodes (0x4fffffff & 0x4ffffffe).
+  2. Below are steps followed to build kvm module and install kernel
+      - Type command "sudo make -j 8 modules"
+      - Type command "sudo make INSTALL_MOD_STRIP=1 modules_install"
+      - Type command "sudo make install"
+      - Removing existing kvm modules using command "sudo rmmod kvm_intel" followed by "sudo rmmod kvm"
+      - Loading kvm module again using command "sudo modprobe kvm" followed by "sudo modprobe kvm_intel"
+      - Verified if kvm module is properly loaded using "lsmod | grep kvm"
+  3. Started virtual manager using "virt-manager"
+  4. Run the following command to check for cpuid leaf node exits
+      - cpuid -l 0x4ffffffd -s #{exit_type}
+      - cpuid -l 0x4ffffffc -s #{exit_type} (Note: -l indicates the values of eax to be loaded and -s indicates the value of ecx (exit_type) to be loaded)
+  5. Output can be viewed in message buffer using "dmesg" command
+
+Output Screenshots
+
+![7](https://user-images.githubusercontent.com/98799930/163021877-b08fa774-7eff-4b08-ab83-ea0f720a0f86.png)
+![8](https://user-images.githubusercontent.com/98799930/163021896-9e2e7949-39fd-4d60-83f9-fa42711c1382.png)
+![9](https://user-images.githubusercontent.com/98799930/163021910-1bc1f79e-8d5e-4563-b111-010baa74782b.png)
+![10](https://user-images.githubusercontent.com/98799930/163021923-042c4c52-b441-41fa-9700-ed3b040f79b2.png)
+
+  6. Committed changes for vmx.c & cpuid.c files to the repository.
