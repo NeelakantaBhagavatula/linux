@@ -1508,7 +1508,7 @@ int kvm_emulate_cpuid(struct kvm_vcpu *vcpu)
 			ebx = (time_spent_for_exit_type[ecx]) >> 32; // 16-31 bits
 			ecx = (time_spent_for_exit_type[ecx]) & 0xffffffff; // 0-15 bits
 			printk(KERN_INFO "CPUID 0x4ffffffc time spent for exit_type %u is %llu cycles", (int) exit_type, time_spent_for_exit_type[exit_type]);
-			printk(KERN_INFO "TIme spet for remainig exit_types");
+			printk(KERN_INFO "Time spent for remainig exit_types");
 			for (int index = 0; index < 70 ;index++) {
 				printk(KERN_INFO "Time spent for exit_type %u is %llu cycles", index, time_spent_for_exit_type[index]);
 			}
