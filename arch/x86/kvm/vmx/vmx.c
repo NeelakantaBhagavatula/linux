@@ -73,7 +73,7 @@ MODULE_LICENSE("GPL");
 extern u32 total_exits;
 extern u64 time_spent_in_vmm;
 
-extern u32 vm_exit_reason[70];
+extern u32 vm_exit_count[70];
 extern u64 time_spent_for_exit_type[70];
 
 #ifdef MODULE
@@ -6036,7 +6036,7 @@ static int __vmx_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
 	u64 inside_time = 0;
 	
 	total_exits = total_exits + 1;
-	vm_exit_reason[exit_reason.basic] += 1;
+	vm_exit_count[exit_reason.basic] += 1;
 
 	/*
 	 * Flush logged GPAs PML buffer, this will make dirty_bitmap more
