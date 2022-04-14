@@ -97,7 +97,7 @@ struct capability_info proc2based[27] =
 	{ 24, "Intel PT uses Guest physical addresses"},
         { 25, "Use TSC scaling" },
         { 26, "Enable User wait and pause"},
-        { 27, "Enable ENCLV exiting"}
+        { 28, "Enable ENCLV exiting"}
 };
 
 struct capability_info entrybased[12] =
@@ -113,6 +113,7 @@ struct capability_info entrybased[12] =
 	{ 17, "Conceal VMX from PT" },
 	{ 18, "Load IA32_RTIT_CTL" },
 	{ 20, "Load CET state" },
+	{ 21, "Load guest IA32_LBR_CTL" },
 	{ 22, "Load PKRS" }
 };
 
@@ -126,12 +127,13 @@ struct capability_info exitbased[14] =
 	{ 19, "Load IA32_PAT" },
 	{ 20, "Save IA32_EEFR" },
 	{ 21, "Load IA32_EFER" },
-	{ 22, "Save VMXpreemption timer value" },
+	{ 22, "Save VMX-preemption timer value" },
 	{ 23, "Clear IA32_BNDCFGS" },
 	{ 24, "Conceal VMX from PT" },
 	{ 25, "Clear IA32_RTIT_CTL" },
 	{ 28, "Load CET state" },
-	{ 29, "Load PKRS" }
+	{ 29, "Load PKRS" },
+	{ 31, "Activate secondary controls" }
 };
 
 /*
