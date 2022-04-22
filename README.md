@@ -1,6 +1,28 @@
 Assignment 1: To discover VMX features
 
-Team - Neelakanta Bhagavatula (SID: 015261909)
+Team - 
+1. Neelakanta Bhagavatula (SID: 015261909)
+2. Rushabh Mehta (SID: 015470585)
+
+Individual Contributions:
+Neelaknata -
+1. Configured VM with Ubuntu and allocated required reosurces.
+2. Donwloaded and built the linux kernel source code (done together).
+3. Added functionality to read MSR's to detect VMX features for primary and secondary proc based controls.
+4. Built all kernel modules and kernel.
+5. Installed modules into kernel.
+6. Loaded the VM with newly built kernel.
+7. Verified outut in system message log.
+
+Rushabh Mehta - 
+1. Enabled Hardware Assisted Virtualization for configured VM.
+2. Downloaded and built the kernel source code (done together).
+3. Added functionality to read MSR's to detect VMX features for entry, exit and proc based controls.
+4. Built all kernel modules and kernel.
+5. Installed modules into kernel.
+6. Loaded the VM with newly built kernel.
+7. Verified output in system message log.
+
 
 Steps followed for Assignment 1:
   1. Install VMWare Workstation on windows.
