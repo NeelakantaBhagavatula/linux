@@ -116,7 +116,25 @@ Output Screenshots
 
 Assignment 2: Instrumentation via hypercall
 
-Team - Neelakanta Bhagavatula (SID: 015261909)
+Team - 
+1. Neelakanta Bhagavatula (SID: 015261909)
+2. Rushabh Mehta (SID: 015470585)
+
+Individual Contributions:
+
+Neelakanta -
+1. Added feature to detect the time spent inside VMM for processing all exits for CPUID 0x4ffffffe leaf node.
+2. Created an inner VM and installed required cpuid packages (done together).
+3. Built and loaded the kernel again for outer VM.
+4. Tested the feature by running cpuid command in inner VM.
+5. Captured output in system message log.
+
+Rushabh Mehta - 
+1. Added feature to detect total number of exits for CPUID 0x4fffffff leaf node.
+2. Created an inner VM and installed required cpuid packages (done together).
+3. Built and loaded the kernel again for outer VM.
+4. Tested the feature by running cpuid command in inner VM.
+5. Captured output in system message log.
 
 Steps followed for Assignment 2:
   1. Modified cpuid.c & vmx.c to support exits for CPUID leaf nodes (0x4fffffff & 0x4ffffffe).
@@ -135,7 +153,7 @@ Steps followed for Assignment 2:
       - Verified if libcirt daemon is active using "sudo systemctl is-active libvirtd"
       - Added user group permissions using "sudo usermod -aG kvm $USER", "sudo usermod -aG libvirt $USER" and "newgrp libvirt"
   4. Started virtual manager using "virt-manager"
-  5. Installed cpuid package manager inside inner VM using "sudo apt-get update -y" followe by "sudo apt-get install -y cpuid"
+  5. Installed cpuid package manager inside inner VM using "sudo apt-get update -y" followed by "sudo apt-get install -y cpuid"
   6. Run the following command to check for cpuid leaf node exits
       - cpuid -l 0x4fffffff
       - cpuid -l 0x4ffffffe (Note: -l indicates the values of eax to be loaded)
@@ -151,7 +169,7 @@ Output Screenshots
   8. Pushed changes for vmx.c & cpuid.c files to the repository.
 
 
-Assignment 2: Instrumentation via hypercall (cont'd)
+Assignment 3: Instrumentation via hypercall (cont'd)
 
 Team - Neelakanta Bhagavatula (SID: 015261909)
 
