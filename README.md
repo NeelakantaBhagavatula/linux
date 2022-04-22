@@ -42,7 +42,7 @@ Steps followed for Assignment 1:
       - Type command "make prepare"
       - While running "make prepare" command, there were some error related to certificates. I resolved it using below steps
           - Created file named "x509.genkey" under /linux/certs
-          - Contents of x509.genjey file are below
+          - Contents of x509.genkey file are below
 
                 [ req ]
                 default_bits = 4096
