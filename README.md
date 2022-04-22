@@ -5,7 +5,8 @@ Team -
 2. Rushabh Mehta (SID: 015470585)
 
 Individual Contributions:
-Neelaknata -
+
+Neelakanta -
 1. Configured VM with Ubuntu and allocated required reosurces.
 2. Donwloaded and built the linux kernel source code (done together).
 3. Added functionality to read MSR's to detect VMX features for primary and secondary proc based controls.
