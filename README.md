@@ -244,11 +244,11 @@ Team -
 Individual Contributions:
 
 Neelakanta -
-  1. Inserted KVM module with EPT diabled (Nested Paging).
+  1. Inserted KVM module with EPT enabled (Nested Paging).
   2. Analysed total number of exits for different exit types.
 
 Rushabh Mehta -
-  1. Inserted KVM module with EPT enabled (Shadow Paging).
+  1. Inserted KVM module with EPT disabled (Shadow Paging).
   2. Analysed total number of exits for different exit types.
 
 Steps followed for Assignment 4:
